@@ -11,7 +11,9 @@
         android:id="@+id/wordOriginalLabel"
         android:text="Введите новое слово:"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        />
     <EditText
         android:id="@+id/wordOriginalEdit"
         android:layout_width="fill_parent"

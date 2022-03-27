@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using RepeatEnglish.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,6 @@ namespace RepeatEnglish
 {
     public class WordCardFragment : Android.Support.V4.App.Fragment
     {
-        // Define Bundle keys for the word card question and answer
-        private static string WORD_CARD_QUESTION = "card_question";
-        private static string WORD_CARD_ANSWER = "card_answer";
 
         // Empty constructor: a factory method (below) is used instead.
         public WordCardFragment() { }
@@ -29,8 +27,8 @@ namespace RepeatEnglish
 
             // Pass the question and answer to the fragment:
             Bundle args = new Bundle();
-            args.PutString(WORD_CARD_QUESTION, question);
-            args.PutString(WORD_CARD_ANSWER, answer);
+            args.PutString(Const.WORD_CARD_QUESTION, question);
+            args.PutString(Const.WORD_CARD_ANSWER, answer);
             fragment.Arguments = args;
 
             return fragment;
@@ -39,8 +37,8 @@ namespace RepeatEnglish
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Get the question and answer for this word card fragment:
-            string question = Arguments.GetString(WORD_CARD_QUESTION, "");
-            string answer = Arguments.GetString(WORD_CARD_ANSWER, "");
+            string question = Arguments.GetString(Const.WORD_CARD_QUESTION, "");
+            string answer = Arguments.GetString(Const.WORD_CARD_ANSWER, "");
 
             // Inflate this fragment from the "wordcard_layout":
             View view = inflater.Inflate(Resource.Layout.wordcard_layout, container, false);
@@ -54,9 +52,22 @@ namespace RepeatEnglish
             // Create a handler to report the answer when the math problem is tapped:
             questionBox.Click += delegate
             {
-                Toast.MakeText(Activity.ApplicationContext,
-                        "Answer: " + answer, ToastLength.Short).Show();
+                //Toast.MakeText(Activity.ApplicationContext,
+                //        "Answer: " + answer, ToastLength.Short).Show();
+                var transaction = FragmentManager.BeginTransaction();
+                var checkingDialog = CheckingDialog.newInstance(question, answer);
+                /*
+                var checkingDialog = new CheckingDialog();
+
+                // Pass the question and answer to the fragment:
+                Bundle args = new Bundle();
+                args.PutString(WORD_CARD_ANSWER, answer);
+                checkingDialog.Arguments = args;
+                */
+                checkingDialog.Show(transaction, "WordCheckingDialog");
             };
+
+            WordService.updateDateShowed(question);
             return view;
         }
     }

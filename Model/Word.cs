@@ -1,13 +1,5 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+
 
 namespace RepeatEnglish.Model
 {
@@ -23,24 +15,29 @@ namespace RepeatEnglish.Model
         { get; set; }
         public DateTime DateUpdated
         { get; set; }
-        public long UpdateCounter
+        public DateTime? DateShowed
+        { get; set; }
+        public long AddCounter
         { get; set; }
         public long CorrectCheckCounter
         { get; set; }
         public long IncorrectCheckCounter
         { get; set; }
+        public long Rating
+        { get; set; }
 
-        public Word(String WordOriginal, String WordTranslated, DateTime DateCreated, DateTime DateUpdated,
-            long UpdateCounter, long CorrectCheckCounter, long IncorrectCheckCounter)
+        public Word(String WordOriginal, String WordTranslated, DateTime DateCreated, DateTime DateUpdated, DateTime? DateShowed,
+           long UpdateCounter, long CorrectCheckCounter, long IncorrectCheckCounter, long Rating)
         {
             this.WordOriginal = WordOriginal;
             this.WordTranslated = WordTranslated;
             this.DateCreated = DateCreated;
             this.DateUpdated = DateUpdated;
-            this.UpdateCounter = UpdateCounter;
+            this.DateShowed = DateShowed;
+            this.AddCounter = UpdateCounter;
             this.CorrectCheckCounter = CorrectCheckCounter;
             this.IncorrectCheckCounter = IncorrectCheckCounter;
-
+            this.Rating = Rating;
         }
 
     }

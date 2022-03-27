@@ -6,10 +6,12 @@ using Android.Widget;
 using RepeatEnglish.Repository;
 using RepeatEnglish.Service;
 using Android.Views;
+using Android.Content;
+using Xamarin.Essentials;
 
 namespace RepeatEnglish
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    [Activity(Label = "@string/app_name")]
     public class MainActivity : AppCompatActivity
     {
         protected Button saveButton = null;
@@ -23,15 +25,15 @@ namespace RepeatEnglish
 
             WordRepository.initDatabase();
 
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
-            //Toolbar will now take on default actionbar characteristics
-            SetActionBar(toolbar);
+            SetSupportActionBar(toolbar);
+            SupportActionBar.Title = "Repeat Your English";
+            SupportActionBar.SetDisplayShowCustomEnabled(true);
+            SupportActionBar.SetDisplayShowTitleEnabled(true);
 
-            ActionBar.Title = "Repeat Your English";
 
             saveButton = FindViewById<Button>(Resource.Id.btnSave);
             wordOriginalEdit = FindViewById<EditText>(Resource.Id.wordOriginalEdit);
@@ -42,9 +44,25 @@ namespace RepeatEnglish
                 saveButton.Click += (sender, e) =>
                 {
                     string wordOriginal = wordOriginalEdit.Text.Trim();
+                    if (wordOriginal.Length == 0)
+                    {
+                        Toast.MakeText(this, "Необходимо заполнить поле 'Новое слово'", ToastLength.Short).Show();
+                        return;
+                    }
                     string wordTranslated = wordTranslatedEdit.Text.Trim();
+                    if (wordTranslated.Length == 0)
+                    {
+                        Toast.MakeText(this, "Необходимо заполнить поле 'Перевод'", ToastLength.Short).Show();
+                        return;
+                    }
+
                     string result = WordService.insertWord(wordOriginal, wordTranslated);
-                    Toast.MakeText(this, result, ToastLength.Short).Show();
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        wordOriginalEdit.Text = "";
+                        wordTranslatedEdit.Text = "";
+                        Toast.MakeText(this, result, ToastLength.Short).Show();
+                    }
                 };
             }
         }
@@ -62,7 +80,17 @@ namespace RepeatEnglish
         }
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            Toast.MakeText(this, "Top ActionBar pressed: " + item.ItemId + item.TitleFormatted, ToastLength.Short).Show();
+            if (item.ItemId == Resource.Id.menu_word_check)
+            {
+                var intent = new Intent(this, typeof(CheckActivity));
+                StartActivity(intent);
+            }
+            else
+            if (item.ItemId == Resource.Id.menu_settings)
+            {
+                var intent = new Intent(this, typeof(SettingsActivity));
+                StartActivity(intent);
+            }
             return base.OnOptionsItemSelected(item);
         }
     }

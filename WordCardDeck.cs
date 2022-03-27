@@ -16,12 +16,13 @@ namespace RepeatEnglish
     public class WordCardDeck
     {
         // Array of word cards that make up the word card deck:
-        private Word[] wordCards;
+        private Word[] wordCards = new Word[0];
 
         public WordCardDeck()
         {
             List<Word> wordList = WordService.getWordsForChecking();
-            this.wordCards = wordList.ToArray();
+            if (wordList.Count > 0)
+                this.wordCards = wordList.ToArray();
         }
 
         // Indexer (read only) for accessing a word card:

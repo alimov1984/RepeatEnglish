@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="400dp"
+    android:minHeight="200dp"
+    android:gravity="center"
+    android:background="@color/colorDialogBgr">
+<TextView
+        android:id="@+id/word_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:text="Answer is here" />
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:orientation="horizontal"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingTop="20dip" 
+        >
+     <Button
+        android:id="@+id/btn_correct_answer"
+        android:text="Ответил правильно"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
+        android:textAlignment="center" 
+        android:layout_marginHorizontal="10dip"
+        android:background="@color/colorDialogBtnCorrect"
+            /> 
+     <Button
+        android:id="@+id/btn_incorrect_answer"
+        android:text="Ответил неправильно"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
+        android:textAlignment="center" 
+        android:layout_marginHorizontal="10dip"  
+        android:background="@color/colorDialogBtnIncorrect"    
+            />
+    </LinearLayout>
+</LinearLayout>
