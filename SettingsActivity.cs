@@ -18,6 +18,9 @@ namespace RepeatEnglish
     [Activity(Label = "@string/app_name")]
     public class SettingsActivity : AppCompatActivity
     {
+
+        Intent serviceToExport;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -25,10 +28,12 @@ namespace RepeatEnglish
 
             SetContentView(Resource.Layout.settings_layout);
 
+            CreateNotificationChannel();
+
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Repeat Your English";
+            SupportActionBar.Title = Resources.GetString(Resource.String.app_name);
             SupportActionBar.SetDisplayShowCustomEnabled(true);
             SupportActionBar.SetDisplayShowTitleEnabled(true);
 
@@ -64,8 +69,11 @@ namespace RepeatEnglish
             Button exportButton = FindViewById<Button>(Resource.Id.btnExport);
             if (exportButton != null)
             {
+                serviceToExport = new Intent(this, typeof(FileExportService));
                 exportButton.Click += async (sender, e) =>
                 {
+                    StartService(serviceToExport);
+                    /*
                     Task<String> exportedTask = WordService.exportDbInFile();
                     String exportedFileName = await exportedTask;
                     if (exportedFileName != null)
@@ -73,6 +81,7 @@ namespace RepeatEnglish
                         Toast.MakeText(this, String.Format("Данные успешно экспортированы в файл {0}"
                             , exportedFileName), ToastLength.Short).Show();
                     }
+                    */
                 };
             }
 
@@ -153,6 +162,29 @@ namespace RepeatEnglish
             Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        private void CreateNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                // Notification channels are new in API 26 (and not a part of the
+                // support library). There is no need to create a notification 
+                // channel on older versions of Android.
+                return;
+            }
+
+            var name = Resources.GetString(Resource.String.channel_name);
+            var channel = new NotificationChannel(Const.CHANNEL_ID, name, NotificationImportance.High);
+            channel.Description = Resources.GetString(Resource.String.channel_description);
+            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+            notificationManager.CreateNotificationChannel(channel);
+        }
+
+        protected override void OnDestroy()
+        {
+            StopService(serviceToExport);
+            base.OnDestroy();
         }
     }
 }

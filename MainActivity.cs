@@ -30,7 +30,7 @@ namespace RepeatEnglish
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Repeat Your English";
+            SupportActionBar.Title = Resources.GetString(Resource.String.app_name);
             SupportActionBar.SetDisplayShowCustomEnabled(true);
             SupportActionBar.SetDisplayShowTitleEnabled(true);
 

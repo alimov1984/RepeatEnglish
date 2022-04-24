@@ -17,6 +17,7 @@ namespace RepeatEnglish
         public static string WORD_CARD_QUESTION = "card_question";
         public static string WORD_CARD_ANSWER = "card_answer";
         public static string SETTING_WORD_CHECKING_COUNT = "word_checking_count";
-        
+        public static readonly string CHANNEL_ID = "notifications";
+
     }
 }

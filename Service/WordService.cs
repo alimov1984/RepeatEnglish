@@ -11,9 +11,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Android.Support.V4.App;
+
 using static Android.OS.Environment;
+
 
 namespace RepeatEnglish.Service
 {
@@ -111,6 +115,7 @@ namespace RepeatEnglish.Service
 
         public static async Task<String> exportDbInFile()
         {
+            Thread.Sleep(15000);
             if (!MediaMounted.Equals(ExternalStorageState))
             {
                 return null;

@@ -28,7 +28,7 @@ namespace RepeatEnglish
 
             //Toolbar will now take on default actionbar characteristics
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "Repeat Your English";
+            SupportActionBar.Title = Resources.GetString(Resource.String.app_name);
 
             // Find the ViewPager and plug in the adapter:
             ViewPager pager = (ViewPager)FindViewById(Resource.Id.word_pager);
